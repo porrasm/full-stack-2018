@@ -44,7 +44,7 @@ class App extends React.Component {
     }
 }
 
-const Statistics = (props) => {
+const StatisticsOld = (props) => {
 
     if (Palautteita(props) === 0) {
         return(
@@ -62,9 +62,38 @@ const Statistics = (props) => {
         )
     }
 }
+const Statistics = (props) => {
+
+    if (Palautteita(props) === 0) {
+        return(
+            <p>ei yhtään palautetta annettu</p>
+        )
+    } else {
+        return (
+            <table>
+                <tbody>
+                <StatisticRow teksti="hyvä" arvo={props.hyvä} />
+                <StatisticRow teksti="neutraali" arvo={props.neutraali} />
+                <StatisticRow teksti="huono" arvo={props.huono} />
+                <StatisticRow teksti="keskiarvo" arvo={Keskiarvo(props)} />
+                <StatisticRow teksti="positiivisia" arvo={Positiivisia(props)} />
+                </tbody>
+            </table>
+        )
+    }
+}
+
 const Statistic = ({ teksti, arvo}) => {
     return(
         <p>{teksti} {arvo}</p>
+    )
+}
+const StatisticRow = ({ teksti, arvo}) => {
+    return(
+        <tr>
+            <td>{teksti}</td>
+            <td>{arvo}</td>
+        </tr>
     )
 }
 
