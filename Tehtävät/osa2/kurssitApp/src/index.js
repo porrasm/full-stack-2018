@@ -45,7 +45,7 @@ const App = () => {
 
     return (
         <div>
-            {kurssit.map(kurssiObject => <Kurssi kurssi={kurssiObject}/>)}
+            {kurssit.map(kurssiObject => <Kurssi key={kurssiObject.id} kurssi={kurssiObject}/>)}
         </div>
     )
 }
