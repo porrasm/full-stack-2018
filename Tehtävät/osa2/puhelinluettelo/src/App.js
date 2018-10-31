@@ -1,19 +1,29 @@
 import React from 'react';
+import axios from 'axios';
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            persons: [
-                {
-                    name: 'Arto Hellas',
-                    number: '0123456789'
-                }
-            ],
+            persons: [],
             newName: '',
             newNumber: '',
             filter: ''
         }
+    }
+
+    componentDidMount() {
+        console.log('Did mount.')
+
+        axios.get('http://localhost:3001/persons')
+            .then(this.personsDataHandler)
+
+    }
+
+    personsDataHandler = (response) => {
+        console.log('Received data: ' + response.data)
+
+        this.setState({ persons: response.data })
     }
 
     nameChange = (event) => {
@@ -66,7 +76,7 @@ class App extends React.Component {
         const names = this.state.persons.map(person => <li key={person.name}>{person.name}</li>)
 
 
-        
+
 
         return (
             <div>
@@ -115,25 +125,25 @@ const AddPerson = ({ app }) => {
     )
 }
 
-const Persons = ({app}) => {
+const Persons = ({ app }) => {
 
     let persons
 
-        if (app.state.filter.length === 0) {
-            persons = app.state.persons.map(person => <tr key={person.name}><td align="left">{person.name}</td><td align="left">{person.number}</td></tr>)
-        } else {
-            const filtered = app.state.persons.filter(person => person.name.toLowerCase().includes(app.state.filter.toLowerCase()))
-            persons = filtered.map(person => <tr key={person.name}><td align="left">{person.name}</td><td align="left">{person.number}</td></tr>)
-        }
+    if (app.state.filter.length === 0) {
+        persons = app.state.persons.map(person => <tr key={person.name}><td align="left">{person.name}</td><td align="left">{person.number}</td></tr>)
+    } else {
+        const filtered = app.state.persons.filter(person => person.name.toLowerCase().includes(app.state.filter.toLowerCase()))
+        persons = filtered.map(person => <tr key={person.name}><td align="left">{person.name}</td><td align="left">{person.number}</td></tr>)
+    }
 
-    return(
+    return (
         <div>
-        <table>
-                    <tbody>
-                        <tr><th align="left">Nimi</th><th align="left">Numero</th></tr>
-                        {persons}
-                    </tbody>
-                </table>
+            <table>
+                <tbody>
+                    <tr><th align="left">Nimi</th><th align="left">Numero</th></tr>
+                    {persons}
+                </tbody>
+            </table>
         </div>
     )
 }
