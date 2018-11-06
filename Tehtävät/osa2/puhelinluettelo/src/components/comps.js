@@ -55,6 +55,17 @@ const Persons = ({ app }) => {
     )
 }
 
+const Notification = ({note}) => {
+
+    if (note === null || note === '') {
+        return null
+    }
+
+    return (
+        <div className="notification">{note}</div>
+    )
+}
+
 const PersonsToTable = (persons, app) => {
     return persons.map(person => 
     <tr key={person.name}>
@@ -64,4 +75,4 @@ const PersonsToTable = (persons, app) => {
     </tr>)
 }
 
-export default {Filter, AddPerson, Persons}
+export default {Filter, AddPerson, Persons, Notification}

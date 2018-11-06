@@ -1,6 +1,7 @@
 import React from 'react';
 import Components from './components/comps';
 import personsSVC from './services/persons';
+import './app.css'
 
 class App extends React.Component {
     constructor(props) {
@@ -9,18 +10,19 @@ class App extends React.Component {
             persons: [],
             newName: '',
             newNumber: '',
-            filter: ''
+            filter: '',
+            notification: ''
         }
     }
 
     componentDidMount() {
         console.log('Did mount.')
 
-            personsSVC
-                .getAll()
-                .then(persons => {
-                    this.setState({persons})
-                })
+        personsSVC
+            .getAll()
+            .then(persons => {
+                this.setState({ persons })
+            })
     }
 
     nameChange = (event) => {
@@ -41,7 +43,7 @@ class App extends React.Component {
 
         console.log('Add new name')
 
-        event.preventDefault()
+        event.preventDefault();
 
         if (this.state.newName.length === 0 || this.state.newNumber.length === 0) {
             console.log("Tried to add empty name or number")
@@ -66,30 +68,53 @@ class App extends React.Component {
         personsSVC.create(newPerson).then(newPerson => {
             console.log("Response: ", newPerson)
 
-            this.setState({
-                persons: this.state.persons.concat(newPerson),
-                newName: '',
-                newNumber: '',
-                filter: ''
-            })
+            
         })
+
+        this.removeNotification();
     }
     updatePerson = () => {
-        
+
         const person = this.state.persons.filter(person => person.name === this.state.newName)[0]
         console.log("Updateing person: ", person)
-        const newPerson = {name: person.name, number: this.state.newNumber}
+        const newPerson = { name: person.name, number: this.state.newNumber }
         console.log("Replacing with: ", newPerson)
+
+        if (!window.confirm("Haluatko korvata henkilön ", person.name, " numeron?")) {
+            return;
+        }
+
+        try {
+            
+        } catch (error) {
+            
+        }
 
         personsSVC
             .update(person.id, newPerson)
             .then(changedPerson => {
                 const newPersons = this.state.persons.filter(p => p.id !== person.id)
                 this.setState({
-                    persons: newPersons.concat(changedPerson)
+                    persons: newPersons.concat(changedPerson), notification: "Päivitettiin " + person.name + "n numero."
                 })
             })
-        
+            .catch(error => {
+                personsSVC.create(newPerson).then(newPerson => {
+                    console.log("Response: ", newPerson)
+
+                    const newPersons = this.state.persons.map(person => {
+                        if (person.name === newPerson.name) {
+                            person.number = newPerson.number
+                        }
+                        return person
+                    })
+
+                    this.setState({persons: newPersons})
+                })
+
+            })
+
+        this.removeNotification();
     }
 
     deletePerson = (id) => {
@@ -103,9 +128,19 @@ class App extends React.Component {
             .then(person => {
                 const filtered = this.state.persons.filter(person => person.id !== id)
 
-                this.setState({persons: filtered})
+                this.setState({ persons: filtered, notification: 'Poistettiin henkilö ' })
             })
-        this.forceUpdate()
+
+        this.removeNotification()
+    }
+
+    removeNotification = () => {
+
+        console.log("removing notification...")
+
+        setTimeout(() => {
+            this.setState({notification: null})
+          }, 5000)
     }
 
     render() {
@@ -113,6 +148,8 @@ class App extends React.Component {
         return (
             <div>
                 <h2>Puhelinluettelo</h2>
+
+                <Components.Notification note={this.state.notification} />
 
                 <Components.Filter app={this} />
 

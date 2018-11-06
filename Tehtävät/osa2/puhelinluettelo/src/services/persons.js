@@ -12,7 +12,9 @@ const create = (newPerson) => {
 }
 
 const update = (id, newPerson) => {
-    const request = axios.put(`${baseUrl}/${id}`, newPerson)
+    const request = axios.put(`${baseUrl}/${id}`, newPerson).catch(error => {
+        console.log("Failed to update person. ", error)
+    })
     return request.then(response => response.data)
 }
 
