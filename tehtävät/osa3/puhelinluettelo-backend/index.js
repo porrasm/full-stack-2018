@@ -2,14 +2,33 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 var cors = require('cors')
+var morgan = require('morgan')
+
+
+morgan.token('content', function(req, res) {
+    const string = JSON.stringify(req.body)
+    return string})
+morgan.token('type', function (req, res) { return req.headers['content-type'] })
+
+const morganSettings = morgan(function (tokens, req, res) {
+
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens['content'](req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms'
+    ].join(' ')
+  })
 
 app.use(bodyParser.json())
 app.use(cors())
-
+app.use(morganSettings)
 
 let persons = [
     {
-        name: "a",
+        name: "aa",
         number: "1",
         id: 1
     },
@@ -58,7 +77,6 @@ app.get('/api/persons', (req, res) => {
 app.post('/api/persons', (req, res) => {
 
     const body = req.body
-    console.log(body)
 
     if (body.name === undefined || body.number === undefined) {
         return res.status(400).json({error: 'content missing'})
@@ -102,7 +120,7 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).end()
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
