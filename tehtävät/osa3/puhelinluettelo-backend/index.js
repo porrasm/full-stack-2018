@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const Person = require('./models/person')
+
 var cors = require('cors')
 var morgan = require('morgan')
 
@@ -27,7 +29,7 @@ app.use(cors())
 app.use(morganSettings)
 app.use(express.static('build'))
 
-let persons = [
+let personsOld = [
     {
         name: "aa",
         number: "1",
@@ -54,7 +56,7 @@ generateId = () => {
 
     let highest = 0
 
-    persons.forEach(p => {
+    personsOld.forEach(p => {
         if (p.id > highest) {
             highest = p.id
         }
@@ -65,14 +67,18 @@ generateId = () => {
 
 app.get('/info', (req, res) => {
 
-    const message = `<p>Luettelossa on ${persons.length} henkilön tiedot</p>
+    const message = `<p>Luettelossa on ${personsOld.length} henkilön tiedot</p>
                     <p>${new Date()}</p>`
 
     res.send(`<p>${message}<p>`)
 })
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    Person 
+        .find({})
+        .then(result => {
+            res.json(result.map(p => ({name: p.name, number: p.number, id: p._id})))
+        })
 })
 
 app.post('/api/persons', (req, res) => {
@@ -83,20 +89,27 @@ app.post('/api/persons', (req, res) => {
         return res.status(400).json({error: 'content missing'})
     }
 
-    const person = {
+    const person = new Person({
         name: body.name,
-        number: body.number,
-        id: generateId()
-    }
+        number: body.number
+    }) 
 
-    const dupName = persons.map(p => p.name).includes(person.name)
-    const dupNumber = persons.map(p => p.number).includes(person.number)
+    person
+        .save()
+        .then(result => {
+            res.json(formatPerson(result))
+        })
+
+    return
+
+    const dupName = personsOld.map(p => p.name).includes(person.name)
+    const dupNumber = personsOld.map(p => p.number).includes(person.number)
 
     if (dupName || dupNumber) {
         return res.status(400).json({error: 'name and number must be unique'})
     }
 
-    persons = persons.concat(person)
+    personsOld = personsOld.concat(person)
 
     res.json(person)
 })
@@ -104,7 +117,7 @@ app.post('/api/persons', (req, res) => {
 app.get('/api/persons/:id', (req, res) => {
 
     const id = Number(req.params.id)
-    const person = persons.find(p => p.id === id)
+    const person = personsOld.find(p => p.id === id)
 
     if (person) {
         res.json(person)
@@ -116,7 +129,7 @@ app.get('/api/persons/:id', (req, res) => {
 app.delete('/api/persons/:id', (req, res) => {
 
     const id = Number(req.params.id)
-    persons = persons.filter(p => p.id !== id)
+    personsOld = personsOld.filter(p => p.id !== id)
 
     res.status(204).end()
 })
@@ -125,3 +138,11 @@ const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+const formatPerson = (person) => {
+    return({
+        name: person.name,
+        number: person.number,
+        id: person._id
+    })
+}
