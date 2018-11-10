@@ -66,9 +66,10 @@ class App extends React.Component {
         const newPerson = { name: this.state.newName, number: this.state.newNumber }
 
         personsSVC.create(newPerson).then(newPerson => {
-            console.log("Response: ", newPerson)
+            console.log("Response: ", newPerson) 
 
-            
+            const newPersons = this.state.persons.concat(newPerson)
+            this.setState({persons: newPersons})
         })
 
         this.removeNotification();

@@ -25,6 +25,7 @@ const morganSettings = morgan(function (tokens, req, res) {
 app.use(bodyParser.json())
 app.use(cors())
 app.use(morganSettings)
+app.use(express.static('build'))
 
 let persons = [
     {

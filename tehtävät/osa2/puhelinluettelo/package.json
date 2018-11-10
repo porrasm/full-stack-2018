@@ -16,6 +16,7 @@
     "eject": "react-scripts eject",
     "server": "json-server -p3001 db.json"
   },
+  "proxy": "https://osa3-puhelinluettelo.herokuapp.com/",
   "eslintConfig": {
     "extends": "react-app"
   },
