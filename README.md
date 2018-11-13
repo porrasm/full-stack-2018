@@ -4,7 +4,7 @@
 
 # Progress
 
-osa0: 0
-osa1: all
-osa2: all
-osa3: 1-13, 15
++ osa0: 0
++ osa1: all
++ osa2: all
++ osa3: 1-13, 15
