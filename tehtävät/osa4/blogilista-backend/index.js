@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const Blog = require('./models/blog')
 const blogRouter = require('./controllers/blogRouter')
 
+
 module.exports = Blog
 
 app.use(cors())
