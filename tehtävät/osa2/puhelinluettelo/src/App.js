@@ -100,18 +100,23 @@ class App extends React.Component {
                 })
             })
             .catch(error => {
-                personsSVC.create(newPerson).then(newPerson => {
-                    console.log("Response: ", newPerson)
 
-                    const newPersons = this.state.persons.map(person => {
-                        if (person.name === newPerson.name) {
-                            person.number = newPerson.number
-                        }
-                        return person
+                if (window.confirm("Henkilön päivitys epäonnistui. Haluatko lisätä henkilön uudestaan?")) {
+                    personsSVC.create(newPerson).then(newPerson => {
+                        console.log("Response: ", newPerson)
+    
+                        const newPersons = this.state.persons.map(person => {
+                            if (person.name === newPerson.name) {
+                                person.number = newPerson.number
+                            }
+                            return person
+                        })
+    
+                        this.setState({persons: newPersons})
                     })
+                }
 
-                    this.setState({persons: newPersons})
-                })
+                
 
             })
 

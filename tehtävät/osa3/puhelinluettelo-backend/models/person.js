@@ -1,7 +1,12 @@
 const mongooose = require('mongoose')
 
-const p = ''
-const url = 'mongodb://porrasm:' + p + '@ds159073.mlab.com:59073/osa3-puhelinluettelo'
+if ( process.env.NODE_ENV !== 'production' ) {
+    require('dotenv').config()
+    }
+
+const url = process.env.MONGODB_URI
+
+console.log('URL' + url)
 
 mongooose.connect(url)
 
