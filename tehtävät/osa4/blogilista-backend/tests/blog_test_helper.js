@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const blogs = [
     {
@@ -50,13 +51,42 @@ const blogs = [
         __v: 0
     }
 ]
+const users = [
+    {
+        "username": "user1",
+        "name": "name1",
+        "password": "password1",
+        "adult": true
+    },
+    {
+        "username": "user2",
+        "name": "name2",
+        "password": "password2",
+        "adult": false
+    },
+    {
+        "username": "user3",
+        "name": "name3",
+        "password": "password3",
+    },
+    {
+        "username": "user4",
+        "name": "name4",
+        "password": "password4",
+        "adult": true
+    }
+]
 
 
-
+const getAllUsers = async () => {
+    const users = await User.find({})
+    return users.map(User.format)
+}
 const getAllBlogs = async () => {
     const blogs = await Blog.find({})
     return blogs.map(format)
 }
+
 const format = (blog) => {
     return {
         title: blog.title,
@@ -68,5 +98,5 @@ const format = (blog) => {
 }
 
 module.exports = {
-    blogs, getAllBlogs
+    users, blogs, getAllBlogs, getAllUsers
 }

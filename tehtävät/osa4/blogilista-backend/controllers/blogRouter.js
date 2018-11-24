@@ -1,9 +1,11 @@
+const jwt = require('jsonwebtoken')
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogRouter.get('/', async (request, response) => {
   try {
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('user', {username: 1, name: 1})
     response.status(200).json(blogs)
   } catch (error) {
     response.status(404).send()
@@ -12,7 +14,16 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response) => {
   try {
+
+    const token = request.body.token
+    const decoded = jwt.verify(token, process.env.SECRET)
+
+    if (!token || !decoded.id) {
+      return response.status(401).json({error: 'token is invalid or missing'})
+    }
+
     const blog = new Blog(request.body)
+    blog.user = decoded.id
 
     if (blog.title === undefined || blog.url === undefined) {
       return response.status(400).send()
@@ -22,19 +33,64 @@ blogRouter.post('/', async (request, response) => {
       blog.likes = 0
     }
 
-    const result = await blog.save()
-    response.status(201).json(result)
+    const savedBlog = await blog.save()
+
+    const user = await User.findById(decoded.id)
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
+
+    response.status(201).json(Blog.format(savedBlog))
   } catch (error) {
+
+    if (error.name === 'JsonWebTokenError') {
+      return response.status(401).json({error: 'error'})
+    }
+
+
+    console.log('Error creating blog...', error)
     response.status(400).send()
   }
 })
 
 blogRouter.delete('/:id', async (request, response) => {
   try {
+
+    const body = request.body
+    const token = body.token
+    const decoded = jwt.verify(token, process.env.SECRET)
+
+    if (!token || !decoded.id) {
+      return response.status(401).json({error: 'token is invalid or missing'})
+    }
+
+    console.log("Decoded id: ", decoded.id)
+    console.log("Trying to find toDelete: ", body)
+    const toDelete = await Blog.findById(request.params.id)
+    const toDeleteOwner = toDelete.user
+    
+    if (toDeleteOwner.toString() !== decoded.id.toString()) {
+      console.log("Only owner can delete")
+      console.log("Delete owner: ", toDeleteOwner)
+      console.log("Deletor: ", decoded.id)
+
+      return response.status(401).json({error: 'Only the owner can delete the blog'})
+    }
+
+    const blog = new Blog(request.body)
+    blog.user = decoded.id
+
+
     const id = request.params.id
     await Blog.findByIdAndDelete(id)
     response.status(204).send()
   } catch (error) {
+
+    if (error.name === 'JsonWebTokenError') {
+      return response.status(401).json({error: 'error'})
+    }
+
+    console.log("ERROR: ", error)
+
     response.status(404).send()
   }
 })
@@ -51,21 +107,11 @@ blogRouter.put('/:id', async (request, respose) => {
     }
 
     const updated = await Blog.findByIdAndUpdate(request.params.id, newBlog)
-    respose.json(formatBlog(updated)).send()
+    respose.json(Blog.format(updated)).send()
   } catch (error) {
     console.log("Error in blogRouter.put: ", error)
     respose.status(400).send({ error: 'malformatted id' })
   }
 })
-
-const formatBlog = (blog) => {
-  return {
-    title: blog.title,
-    url: blog.url,
-    author: blog.author,
-    likes: blog.likes,
-    id: blog._id
-  }
-}
 
 module.exports = blogRouter
