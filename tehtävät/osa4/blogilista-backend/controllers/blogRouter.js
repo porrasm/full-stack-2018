@@ -13,9 +13,15 @@ blogRouter.get('/', async (request, response) => {
 })
 
 blogRouter.post('/', async (request, response) => {
+
+  console.log("Trying to add blog")
+
   try {
 
     const token = request.body.token
+
+    console.log("Trying to post blog with toke: ", token)
+
     const decoded = jwt.verify(token, process.env.SECRET)
 
     if (!token || !decoded.id) {

@@ -4,6 +4,8 @@ if (process.env.NODE_ENV !== 'production') {
   
   let port = process.env.PORT
   let mongoUrl = process.env.MONGODB_URI
+
+  console.log("Mongo url: ", mongoUrl)
   
   if (process.env.NODE_ENV === 'test') {
     port = process.env.TEST_PORT
