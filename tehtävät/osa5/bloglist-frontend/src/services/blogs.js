@@ -20,11 +20,32 @@ const addBlog = (blog) => {
 
   const config = {headers: {Authorization: token}}
 
-  console.log("with config: ", config)
-  console.log("with token: ", token)
-
   const request = axios.post(baseUrl, blog, config)
   return request.then(response => response.data)
 }
 
-export default { getAll, addBlog, setToken}
+const updateBlog = async (id, blog) => {
+
+  console.log("Trying to update blog: ", blog)
+
+  const config = {headers: {Authorization: token}}
+
+  const url = baseUrl + "/" + id
+
+  const request = await axios.put(url, blog, config)
+  return request.data
+}
+
+const deleteBlog = async (id) => {
+
+  console.log("Trying to delete blog: ", id)
+
+  const config = {headers: {Authorization: token}}
+
+  const url = baseUrl + "/" + id
+
+  const request = await axios.delete(url, config)
+  return request.data
+}
+
+export default { getAll, addBlog, setToken, updateBlog, deleteBlog}

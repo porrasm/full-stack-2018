@@ -4,6 +4,9 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 
 blogRouter.get('/', async (request, response) => {
+
+  console.log("Trying to get blog")
+
   try {
     const blogs = await Blog.find({}).populate('user', {username: 1, name: 1})
     response.status(200).json(blogs)
@@ -74,12 +77,14 @@ blogRouter.delete('/:id', async (request, response) => {
     const toDelete = await Blog.findById(request.params.id)
     const toDeleteOwner = toDelete.user
     
-    if (toDeleteOwner.toString() !== decoded.id.toString()) {
-      console.log("Only owner can delete")
-      console.log("Delete owner: ", toDeleteOwner)
-      console.log("Deletor: ", decoded.id)
-
-      return response.status(401).json({error: 'Only the owner can delete the blog'})
+    if (toDeleteOwner) {
+      if (toDeleteOwner.toString() !== decoded.id.toString()) {
+        console.log("Only owner can delete")
+        console.log("Delete owner: ", toDeleteOwner)
+        console.log("Deletor: ", decoded.id)
+  
+        return response.status(401).json({error: 'Only the owner can delete the blog'})
+      }
     }
 
     const blog = new Blog(request.body)
@@ -104,18 +109,31 @@ blogRouter.delete('/:id', async (request, response) => {
 blogRouter.put('/:id', async (request, respose) => {
 
   try {
+
+    const token = request.body.token
+
+    console.log("Trying to update blog with toke: ", token)
+
+    const decoded = jwt.verify(token, process.env.SECRET)
+
+    if (!token || !decoded.id) {
+      return response.status(401).json({error: 'token is invalid or missing'})
+    }
+
     const body = request.body
     const newBlog = {
       title: body.title,
       url: body.url,
       author: body.author,
-      likes: body.likes
+      likes: body.likes,
+      user: body.user
     }
 
-    const updated = await Blog.findByIdAndUpdate(request.params.id, newBlog)
-    respose.json(Blog.format(updated)).send()
+
+    const updated = await Blog.findByIdAndUpdate(request.params.id, newBlog).populate('user', {username: 1, name: 1})
+    respose.json(updated).send()
   } catch (error) {
-    console.log("Error in blogRouter.put: ", error)
+    console.log("\n\nError in blogRouter.put: ", error)
     respose.status(400).send({ error: 'malformatted id' })
   }
 })

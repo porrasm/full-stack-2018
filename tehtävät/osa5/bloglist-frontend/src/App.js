@@ -4,6 +4,7 @@ import Login from './components/Login'
 import blogService from './services/blogs'
 import loginService from './services/loginService'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import'./app.css'
 
 class App extends React.Component {
@@ -41,7 +42,9 @@ class App extends React.Component {
 
         <Notification note={this.state.notification} />
 
-        <Login.LoginForm app={this} />
+        <Togglable.Togglable buttonLabel="Login">
+          <Login.LoginForm app={this} />
+        </Togglable.Togglable>
 
         <h2>Blogs</h2>
 
@@ -66,9 +69,12 @@ class App extends React.Component {
 
         <h2>Blogs</h2>
 
-        {this.state.blogs.map(blog => 
-          <Blog.Blog key={blog._id} blog={blog}/>
+        {this.state.blogs.sort((a, b) => b.likes - a.likes).map(blog => 
+          <Blog.BlogToggle blog={blog} 
+          likeBlog={() => this.likeBlog(blog)}
+          deleteBlog={() => this.deleteBlog(blog)} />
         )}
+        
       </div>
     )
   }
@@ -123,7 +129,7 @@ class App extends React.Component {
       const response = await blogService.addBlog(this.state.newBlog)
       const blog = {title: response.title, author: response.author}
 
-      this.setState({blogs: this.state.blogs.concat(blog), notification: "Added new blog: " + blog.title})
+      this.setState({blogs: this.state.blogs.concat(response), notification: "Added new blog: " + blog.title})
       console.log("Server response: ", response)
 
       this.removeNote()
@@ -133,6 +139,48 @@ class App extends React.Component {
     }
 
     
+  }
+  likeBlog = async (blog) => {
+
+
+    const newBlog = {
+      user: blog.user._id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+    }
+
+    const response = await blogService.updateBlog(blog._id, newBlog)
+    newBlog.user = response.user
+    response.likes = newBlog.likes
+
+    const blogs = this.state.blogs.map(b => {
+      if (b._id === blog._id) {
+        return response
+      } 
+      return b
+    })
+
+    this.setState({blogs: blogs})
+  }
+  deleteBlog = async (blog) => {
+
+    console.log("Trying to delete blog.")
+
+    const newBlog = {
+      user: blog.user._id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+    }
+
+    const response = await blogService.deleteBlog(blog._id)
+
+    const blogs = this.state.blogs.filter(b => b._id !== blog._id)
+
+    this.setState({blogs: blogs})
   }
 
   addNote(note) {
