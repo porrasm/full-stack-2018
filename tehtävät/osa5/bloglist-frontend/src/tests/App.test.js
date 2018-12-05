@@ -22,21 +22,34 @@ describe.only('App: ', () => {
         expect(blogs.length).toEqual(0)
     })
 
-    it('signed in user can view blogs', () => {
 
-        let user = {name: "TEST NAME", username: "TEST USER", token: "TEST TOKEN"}
+    describe("logged in", () => {
 
-        localStorage.setItem('user', JSON.stringify(user))
-        
-        app = mount(<App />)
-        
-        app.update()
+        beforeEach(() => {
+            const user = {
+                username: 'tester',
+                token: 'asdasdasd',
+                name: 'Tester man'
+            }
+ 
+            localStorage.setItem('user', JSON.stringify(user))
+            app = mount(<App />)
+        })
 
-        const blogs = app.find(Blog.BlogToggle)
+        it('signed in user can view blogs', async () => {
 
-        console.log("Found blogs length: " + blogs.length)
-        console.log("Debug HTML: ", app.debug())
+            
 
-        expect(blogs.length).toEqual(blogService.blogs.length)
-    })
+            app.update()
+    
+            const blogs = app.find(Blog.BlogToggle)
+    
+            console.log("Found blogs length: " + blogs.length)
+            console.log("Debug HTML: ", app.debug())
+    
+            expect(blogs.length).toEqual(blogService.blogs.length)
+        })
+    }) 
+
+    
 })
