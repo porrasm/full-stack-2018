@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const Blog = ({blog}) => (
   <div>
@@ -12,6 +13,12 @@ class BlogToggle extends React.Component {
       this.state = {
         minimized: true
     }
+  }
+
+  static propType = {
+    blog: PropTypes.object.isRequired,
+    likeBlog: PropTypes.func.isRequired,
+    deleteBlog: PropTypes.func.isRequired
   }
 
   toggle = () => {
@@ -41,36 +48,26 @@ class BlogToggle extends React.Component {
 
     const user = JSON.parse(window.localStorage.getItem("user"))
 
-    if (user.username === this.props.blog.user.username || this.props.blog.user === null) {
-      return (
-        <div>
-          <div style={hideWhenVisible}>
-            <p onClick={this.toggle}>{this.props.blog.title} by {this.props.blog.author}</p>
-          </div>
-          <div style={showWhenVisible}>
-          <p onClick={this.toggle}>{this.props.blog.title} by {this.props.blog.author}</p>
-          <a href={this.props.blog.url}>{this.props.blog.url}</a>
-          <p>Likes: {this.props.blog.likes}</p><button onClick={this.props.likeBlog}>Like</button>
-          <p>Added by {this.props.blog.user.name}</p>
-          <button onClick={this.props.deleteBlog}>Delete</button>
-          </div>
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <div style={hideWhenVisible}>
-            <p onClick={this.toggle}>{this.props.blog.title} by {this.props.blog.author}</p>
-          </div>
-          <div style={showWhenVisible}>
-          <p onClick={this.toggle}>{this.props.blog.title} by {this.props.blog.author}</p>
-          <a href={this.props.blog.url}>{this.props.blog.url}</a>
-          <p>Likes: {this.props.blog.likes}</p><button onClick={this.props.likeBlog}>Like</button>
-          <p>Added by {this.props.blog.user.name}</p>
-          </div>
-        </div>
-      )
+    let deleteButton = (<button onClick={this.props.deleteBlog}>Delete</button>)
+
+    if (!user) {
+      deleteButton = null;
     }
+
+    return (
+      <div className="blogInfo">
+        <div style={hideWhenVisible} className="blogSmall">
+          <p onClick={this.toggle}>{this.props.blog.title} by {this.props.blog.author}</p>
+        </div>
+        <div style={showWhenVisible} className="blogBig">
+        <p onClick={this.toggle}>{this.props.blog.title} by {this.props.blog.author}</p>
+        <a href={this.props.blog.url}>{this.props.blog.url}</a>
+        <p>Likes: {this.props.blog.likes}</p><button onClick={this.props.likeBlog}>Like</button>
+        <p>Added by {this.props.blog.user.name}</p>
+        {deleteButton}
+        </div>
+      </div>
+    )    
   }
 
   deleteButton = (blog) => {
