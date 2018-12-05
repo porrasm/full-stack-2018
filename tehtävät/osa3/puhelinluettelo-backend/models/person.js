@@ -24,9 +24,19 @@ mongooose.connect(url)
 //     })
 // }
 
-const Person = mongooose.model('Person', {
+const personSchema = mongooose.Schema({
     name: String,
     number: String
-})
+}) 
+    
+personSchema.statics.format = (person) => {
+    return({
+        name: person.name,
+        number: person.number,
+        id: person._id
+    })
+}
+
+const Person = mongooose.model('Person', personSchema)
 
 module.exports = Person
