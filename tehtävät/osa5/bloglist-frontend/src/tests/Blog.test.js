@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import Togglable from './Togglable'
-import Blog from './Blog'
+import Togglable from '../components/Togglable'
+import Blog from '../components/Blog'
 
 describe('Blog toggle: ', () => {
     const blogObject = { title: "title", author: "author", likes: 1, user: {username: "test", name: "test"} }

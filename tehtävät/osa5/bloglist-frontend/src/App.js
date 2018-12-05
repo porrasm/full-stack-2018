@@ -27,6 +27,10 @@ class App extends React.Component {
 
     const storageUser = window.localStorage.getItem("user")
 
+    console.log("Component Mount: blogs length: ", this.state.blogs.length)
+    console.log("Component Mount: blogs : ", this.state.blogs)
+    console.log("Storage user: ", storageUser)
+
     if (storageUser) {
       const user = JSON.parse(storageUser)
       blogService.setToken(user.token)
@@ -47,36 +51,39 @@ class App extends React.Component {
         </Togglable.Togglable>
 
         <h2>Blogs</h2>
+        <p>You need to sign in to view the blogs</p>
 
-        {this.state.blogs.map(blog => 
-          <Blog.Blog key={blog._id} blog={blog}/>
-        )}
       </div>
       )
     }
 
-    return (
-      <div>
-        <h1>Blog List</h1>
-
-        <Notification note={this.state.notification} />
-
-        <Login.LoginInformation app={this} />
-
-        <h2>Add Blog</h2>
-
-        <Blog.BlogForm app={this} />
-
-        <h2>Blogs</h2>
-
-        {this.state.blogs.sort((a, b) => b.likes - a.likes).map(blog => 
-          <Blog.BlogToggle blog={blog} 
-          likeBlog={() => this.likeBlog(blog)}
-          deleteBlog={() => this.deleteBlog(blog)} />
-        )}
-        
-      </div>
+    const blogs = this.state.blogs.sort((a, b) => b.likes - a.likes).map(blog => 
+      <Blog.BlogToggle blog={blog} 
+      key={blog._id}
+      likeBlog={() => this.likeBlog(blog)}
+      deleteBlog={() => this.deleteBlog(blog)} />
     )
+
+    const returnable = (<div>
+      <h1>Blog List</h1>
+
+      <Notification note={this.state.notification} />
+
+      <Login.LoginInformation app={this} />
+
+      <h2>Add Blog</h2>
+
+      <Blog.BlogForm app={this} />
+
+      <h2>Blogs</h2>
+      
+      <p>BLOGS SHOULD BE BETWEEN ME</p>
+      {blogs}
+      <p>BLOGS SHOULD BE BETWEEN ME</p>
+      
+    </div>)
+
+    return returnable
   }
 
   // Methods

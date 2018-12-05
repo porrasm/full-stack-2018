@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import Togglable from './Togglable'
-import SimpleBlog from './SimpleBlog'
+import Togglable from '../components/Togglable'
+import SimpleBlog from '../components/SimpleBlog'
 
 describe('SimpleBlog: ', () => {
   const blogObject = { title: "title", author: "author", likes: 1 }
