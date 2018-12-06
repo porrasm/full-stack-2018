@@ -31,14 +31,12 @@ describe.only('App: ', () => {
                 token: 'asdasdasd',
                 name: 'Tester man'
             }
- 
+
             localStorage.setItem('user', JSON.stringify(user))
             app = mount(<App />)
         })
 
         it('signed in user can view blogs', async () => {
-
-            
 
             app.update()
     

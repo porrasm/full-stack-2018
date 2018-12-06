@@ -12,7 +12,7 @@
 | osa2          | all           | 19/19   |
 | osa3          | all           | 22/22   |
 | osa4          | all           | 21/21   |
-| osa5          | 1-16          | 16/21   |
+| osa5          | all         	| 21/21   |
 | osa6          | none          | 0/23    |
 | osa7          | none          | 0/23    |
-| Total         | 65%           | 92/140    |
+| Total         | 69%           | 97/140  |
