@@ -10,9 +10,26 @@ const notificationReducer = (state = null, action) => {
     }
 }
 
-export const noteChange = (notification) => {
+const noteChangeOld = (notification) => {
     return { type: 'note-change', notification }
 }
+export const noteChange = (notification, time) => {
+
+    console.log('ACTION: Trying to create anecdote: ', notification)
+
+    
+
+    return async (dispatch) => {
+        setTimeout(() => {
+            dispatch(noteReset())
+        }, time * 1000)
+        dispatch({
+            type: 'note-change',
+            notification
+        })
+    }
+}
+
 export const noteReset = () => {
 
     console.log('in note reset')

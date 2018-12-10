@@ -15,9 +15,11 @@ console.log('INITIALIZATION OF ANECDOTES')
 
 const anecdoteReducer = (state = [], action) => {
 
+    console.log('REDUCER: action: ', action)
+
     switch (action.type) {
         case 'create':
-            return state.concat(action.data.anecdote)
+            return state.concat(action.data)
         case 'vote':
             return vote(state, action.data.id)
         case 'update':
@@ -31,9 +33,9 @@ const anecdoteReducer = (state = [], action) => {
 
 const createNew = async (state, anecdote) => {
 
-    console.log('Create new: ', anecdote)
+    console.log('REDUCER: Create new: ', anecdote)
     const data = await anecdotes.createNew(anecdote)
-    console.log('anecdote data', data)
+    console.log('REDUCR: anecdote data', data)
     return state.concat(data)
 }
 const vote = (state, id) => {
@@ -49,17 +51,40 @@ const vote = (state, id) => {
     })
 }
 const update = (state, anecdote) => {
-    console.log('Trying to update anecdote state: ', anecdote)
+    console.log('Trying to update anecdote state: ')
     return state.filter(a => a.id !== anecdote.id).concat(anecdote)
 }
 
 
-export const createAction = (anecdote) => {
+const createActionOld = (anecdote) => {
     return { type: 'create', data: { anecdote } }
 }
+export const createAction = (anecdote) => {
 
-export const voteAction = (id) => {
+    console.log('ACTION: Trying to create anecdote: ', anecdote)
+
+    return async (dispatch) => {
+        const newAnecdote = await anecdotes.createNew(anecdote)
+        console.log('ACTION: Created nre anecdote: ', newAnecdote)
+        dispatch({
+            type: 'create',
+            data: newAnecdote
+        })
+    }
+}
+
+const voteActionOld = (id) => {
     return { type: 'vote', data: { id } }
+}
+export const voteAction = (anecdote) => {
+
+    return async (dispatch) => {
+        const update = await anecdotes.update(anecdote)
+        dispatch({
+            type: 'create',
+            data: update
+        })
+    }
 }
 
 export const initAnecdotes = (data) => {

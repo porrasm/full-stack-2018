@@ -18,7 +18,7 @@ const getAll = async () => {
 
 const createNew = async (anecdote) => {
 
-    console.log('CREATING ANECDOTE OBJECT FROM: ', anecdote)
+    console.log('SERVICE: CREATING ANECDOTE OBJECT FROM: ', anecdote)
     const response = await axios.post(url, asObject(anecdote))
     return response.data
 }

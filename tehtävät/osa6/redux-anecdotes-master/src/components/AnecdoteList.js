@@ -46,12 +46,8 @@ class AnecdoteList extends React.Component {
         console.log('trying to update: ', anecdote)
 
         anecdote.votes++
-        const updated = await anecdotes.update(anecdote)
-
-        console.log('updated anecdote: ', updated)
-
-        this.props.updateAnecdote(updated)
-        this.props.noteChange('You voted \'' + anecdote.content + '\'')
+        this.props.updateAnecdote(anecdote)
+        this.props.noteChange('You voted \'' + anecdote.content + '\'', 5)
     }
 }
 

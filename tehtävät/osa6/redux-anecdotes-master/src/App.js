@@ -22,11 +22,11 @@ class App extends React.Component {
             <div>
                 <h2>Anecdotes</h2>
 
-                <Notification store={this.props.store} />
+                <Notification/>
 
                 <AnecdoteList/>
                 <h2>create new</h2>
-                <AnecdoteForm createNew={this.createNew} />
+                <AnecdoteForm/>
             </div>
         )
     }

@@ -22,11 +22,8 @@ class AnecdoteForm extends React.Component {
 
         event.preventDefault()
         const anecdote = event.target.noteInput.value
-        const anecdoteObject = await anecdotes.createNew(anecdote)
-        console.log
-
-        this.props.createAction(anecdoteObject)
-        this.props.noteChange('Added ' + anecdote)
+        this.props.createAction(anecdote)
+        this.props.noteChange('Added ' + anecdote, 10)
     }
 }
 

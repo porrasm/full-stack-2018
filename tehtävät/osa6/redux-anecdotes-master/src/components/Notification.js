@@ -7,6 +7,9 @@ class Notification extends React.Component {
 
     componentDidUpdate() {
 
+        // New way to clear timeout
+        return
+
         console.log('NOTIFICATION UPDATE')
 
         if (!this.props.notification) {
