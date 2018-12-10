@@ -3,6 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { createAction } from '../reducers/anecdoteReducer'
 import { noteChange } from '../reducers/notificationReducer'
+import anecdotes from '../services/anecdotes'
 
 class AnecdoteForm extends React.Component {
 
@@ -15,14 +16,16 @@ class AnecdoteForm extends React.Component {
         )
     }
 
-    createNew = (event) => {
+    createNew = async (event) => {
 
         console.log('EVENT', event)
 
         event.preventDefault()
         const anecdote = event.target.noteInput.value
+        const anecdoteObject = await anecdotes.createNew(anecdote)
+        console.log
 
-        this.props.createAction(anecdote)
+        this.props.createAction(anecdoteObject)
         this.props.noteChange('Added ' + anecdote)
     }
 }

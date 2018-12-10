@@ -1,14 +1,17 @@
 /* eslint-disable no-undef */
 import React from 'react'
 import { connect } from 'react-redux'
-import { voteAction } from '../reducers/anecdoteReducer'
+import { voteAction, updateAnecdote } from '../reducers/anecdoteReducer'
 import { noteChange } from '../reducers/notificationReducer'
 import Filter from './Filter'
+import anecdotes from '../services/anecdotes'
 
 
 class AnecdoteList extends React.Component {
 
     render() {
+
+        console.log('anecs to render: ', this.props.anecdotesToRender)
 
         return (
             <div>
@@ -29,9 +32,8 @@ class AnecdoteList extends React.Component {
         )
     }
 
-    vote = (id) => {
+    vote = async (id) => {
 
-        this.props.voteAction(id)
         let anecdote
 
         for (let a of this.props.anecdotesToRender) {
@@ -41,12 +43,21 @@ class AnecdoteList extends React.Component {
             }
         }
 
+        console.log('trying to update: ', anecdote)
+
+        anecdote.votes++
+        const updated = await anecdotes.update(anecdote)
+
+        console.log('updated anecdote: ', updated)
+
+        this.props.updateAnecdote(updated)
         this.props.noteChange('You voted \'' + anecdote.content + '\'')
     }
 }
 
 const anecdotesToRender = (anecdotes, filter) => {
 
+    console.log('Anecs: ', anecdotes)
     const sorted = anecdotes.sort((a, b) => b.votes - a.votes)
 
 
@@ -63,7 +74,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = {
     voteAction,
-    noteChange
+    noteChange,
+    updateAnecdote
 }
 
 const ConnectedAnecdoteList = connect(

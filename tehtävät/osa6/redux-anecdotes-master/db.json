@@ -1,0 +1,34 @@
+{
+  "anecdotes": [
+    {
+      "content": "a",
+      "id": 0,
+      "votes": 4
+    },
+    {
+      "content": "b",
+      "id": 1,
+      "votes": 11
+    },
+    {
+      "content": "c",
+      "id": 2,
+      "votes": 6
+    },
+    {
+      "content": "d",
+      "id": 3,
+      "votes": 7
+    },
+    {
+      "content": "e",
+      "id": "57681",
+      "votes": 3
+    },
+    {
+      "content": "sdf",
+      "id": "27411",
+      "votes": 6
+    }
+  ]
+}

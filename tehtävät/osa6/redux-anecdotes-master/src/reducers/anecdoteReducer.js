@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+import anecdotes from '../services/anecdotes'
+
 const anecdotesAtStart = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
@@ -7,36 +10,31 @@ const anecdotesAtStart = [
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
-const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
-    return {
-        content: anecdote,
-        id: getId(),
-        votes: 0
-    }
-}
-
-const initialState = anecdotesAtStart.map(asObject)
 console.log('INITIALIZATION OF ANECDOTES')
 
-const anecdoteReducer = (state = initialState, action) => {
+const anecdoteReducer = (state = [], action) => {
 
     switch (action.type) {
         case 'create':
-            return createNew(state, action.data.anecdote)
+            return state.concat(action.data.anecdote)
         case 'vote':
             return vote(state, action.data.id)
+        case 'update':
+            return update(state, action.data)
+        case 'init':
+            return action.data
     }
 
     return state
 }
 
-const createNew = (state, anecdote) => {
+const createNew = async (state, anecdote) => {
 
     console.log('Create new: ', anecdote)
-
-    return state.concat(asObject(anecdote))
+    const data = await anecdotes.createNew(anecdote)
+    console.log('anecdote data', data)
+    return state.concat(data)
 }
 const vote = (state, id) => {
 
@@ -50,6 +48,10 @@ const vote = (state, id) => {
         return a
     })
 }
+const update = (state, anecdote) => {
+    console.log('Trying to update anecdote state: ', anecdote)
+    return state.filter(a => a.id !== anecdote.id).concat(anecdote)
+}
 
 
 export const createAction = (anecdote) => {
@@ -58,6 +60,20 @@ export const createAction = (anecdote) => {
 
 export const voteAction = (id) => {
     return { type: 'vote', data: { id } }
+}
+
+export const initAnecdotes = (data) => {
+    return {
+        type: 'init',
+        data
+    }
+}
+
+export const updateAnecdote = (data) => {
+    return {
+        type: 'update',
+        data
+    }
 }
 
 export default anecdoteReducer
