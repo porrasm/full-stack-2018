@@ -2,10 +2,6 @@
 
 [Pääsivu](../)
 
-# Note
-
-Osa6 Tehtävät 6.1 - 6.5 ovat [Osa5 kansiossa](../osa5)
-
 # Linkit tehtäviin
 + [Osa 0](tehtävät/osa0)
 + [Osa 1](tehtävät/osa1)
