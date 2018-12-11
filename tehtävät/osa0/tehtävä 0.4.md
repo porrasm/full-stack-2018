@@ -27,3 +27,5 @@ Palvelin->Selain: Selain refreshaa ja hakeee datan\nuudestaan palvelimelta
 
 Selain->Käyttäjä: Selain näyttää käyttäjälle\nlistan muistiinpanoja
 ```
+
+Kopio koodi [SequenceDiagramiin](https://sequencediagram.org/)

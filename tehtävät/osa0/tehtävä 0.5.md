@@ -19,3 +19,5 @@ Selain->Kayttaja: Selain muuntaa datan \nkäyttäjäystävälliseen muotoon
 
 Kayttaja->Kayttaja: Käyttäjä lukee muistiinpanot
 ```
+
+Kopio koodi [SequenceDiagramiin](https://sequencediagram.org/)

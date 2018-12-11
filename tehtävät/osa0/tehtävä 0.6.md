@@ -27,3 +27,5 @@ Selain->Selain: Selain lisää uuden muistiinpanon\nlistaan
 
 Selain->Käyttäjä: Selain näyttää käyttäjälle\nlistan muistiinpanoja
 ```
+
+Kopio koodi [SequenceDiagramiin](https://sequencediagram.org/)
