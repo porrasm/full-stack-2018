@@ -6,13 +6,14 @@ Kuvana:
 
 Tekstinä:
 
-```Käyttäjä->Selain: Käyttäjä avaa luomissivun
+```
+Käyttäjä->Selain: Käyttäjä avaa luomissivun
 
 Selain->Palvelin:
+
 Palvelin->Selain: (muistiinpanojen\nhaku palvelimelta)
 
 Selain->Käyttäjä: Selain näyttää käyttäjälle \ndatan ja luomissivun
-
 
 Käyttäjä->Selain: Käyttäjä kirjoittaa lomakkeeseen\nuuden muistiinpanon ja painaa\n'Talleta'
 
@@ -24,4 +25,5 @@ Palvelin->Selain: Palvelin palauttaa juuri luodun\nmuistiinpanon JSON muodossa
 
 Selain->Selain: Selain lisää uuden muistiinpanon\nlistaan
 
-Selain->Käyttäjä: Selain näyttää käyttäjälle\nlistan muistiinpanoja```
+Selain->Käyttäjä: Selain näyttää käyttäjälle\nlistan muistiinpanoja
+```

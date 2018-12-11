@@ -6,13 +6,13 @@ Kuvana:
 
 Tekstinä:
 
-```Käyttäjä->Selain: Käyttäjä avaa luomissivun
+```
+Käyttäjä->Selain: Käyttäjä avaa luomissivun
 
 Selain->Palvelin:
 Palvelin->Selain: (muistiinpanojen\nhaku palvelimelta)
 
 Selain->Käyttäjä: Selain näyttää käyttäjälle \ndatan ja luomissivun
-
 
 Käyttäjä->Selain: Käyttäjä kirjoittaa lomakkeeseen\nuuden muistiinpanon ja painaa\n'Talleta'
 
@@ -22,7 +22,8 @@ Palvelin->Palvelin: Palvelin luo datasta muistiinpanon
 
 Palvelin->Selain: Palvelin palauttaa status koodin 200
 
-Selain->Palvelin: 
+Selain->Palvelin:
 Palvelin->Selain: Selain refreshaa ja hakeee datan\nuudestaan palvelimelta
 
-Selain->Käyttäjä: Selain näyttää käyttäjälle\nlistan muistiinpanoja```
+Selain->Käyttäjä: Selain näyttää käyttäjälle\nlistan muistiinpanoja
+```

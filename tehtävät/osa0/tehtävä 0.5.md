@@ -6,7 +6,8 @@ Kuvana:
 
 Tekstinä:
 
-```Kayttaja->Selain: Käyttäjä menee sivulle
+```
+Kayttaja->Selain: Käyttäjä menee sivulle
 
 Selain->Palvelin: Selain lähettää palvelimelle GET pyynnön \nmuistiinpanoista osoitteeseen /notes
 
@@ -16,4 +17,5 @@ Palvelin->Selain: Palvelin palauttaa selaimelle \nmuistiinpanot JSON muodossa
 
 Selain->Kayttaja: Selain muuntaa datan \nkäyttäjäystävälliseen muotoon
 
-Kayttaja->Kayttaja: Käyttäjä lukee muistiinpanot```
+Kayttaja->Kayttaja: Käyttäjä lukee muistiinpanot
+```
