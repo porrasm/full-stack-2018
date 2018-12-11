@@ -1,6 +1,6 @@
 # Full Stack 2018
 
-[Pääsivu](../)
+[Pääsivu](https://github.com/porrasm/full-stack-2018)
 
 # Note
 
