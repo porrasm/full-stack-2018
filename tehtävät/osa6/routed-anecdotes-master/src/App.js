@@ -183,15 +183,15 @@ class CreateNew extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Field>
                         <label>Anecdote</label>
-                        <input name="content" />
+                        <input name="content" onChange={this.handleChange} />
                     </Form.Field>
                     <Form.Field>
                         <label>Author</label>
-                        <input name="author" />
+                        <input name="author" onChange={this.handleChange} />
                     </Form.Field>
                     <Form.Field>
                         <label>URL for more info</label>
-                        <input name="info" />
+                        <input name="info" onChange={this.handleChange} />
                     </Form.Field>
                     <Button type="submit">Add anecdote</Button>
                 </Form>
