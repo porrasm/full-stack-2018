@@ -6,7 +6,7 @@ Kuvana:
 
 Tekstinä:
 
-`Käyttäjä->Selain: Käyttäjä avaa luomissivun
+```Käyttäjä->Selain: Käyttäjä avaa luomissivun
 
 Selain->Palvelin:
 Palvelin->Selain: (muistiinpanojen\nhaku palvelimelta)
@@ -25,4 +25,4 @@ Palvelin->Selain: Palvelin palauttaa status koodin 200
 Selain->Palvelin: 
 Palvelin->Selain: Selain refreshaa ja hakeee datan\nuudestaan palvelimelta
 
-Selain->Käyttäjä: Selain näyttää käyttäjälle\nlistan muistiinpanoja`
+Selain->Käyttäjä: Selain näyttää käyttäjälle\nlistan muistiinpanoja```
