@@ -1,41 +1,92 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import { Table, Container, Message, Menu, Form, Button } from 'semantic-ui-react'
 
-const Menu = () => {
 
-    const style = {
-        width: 250,
-        outlineStyle: 'solid',
-        backgroundColor: 'blue',
-        textAlign: 'center',
-        fontSide: '30'
-    }
-    const linkStyle = {
-        backgroundColor: 'orange'
-    }
+const Menus = () => {
 
     return (
-        <div style = {style}>
-            <NavLink style={linkStyle} exact to="/">Anecdotes</NavLink> &nbsp;
-            <NavLink style={linkStyle} exact to="/create">Create New</NavLink> &nbsp;
-            <NavLink style={linkStyle} exact to="/about">About</NavLink> &nbsp;
-        </div>
+
+        <Menu inverted>
+            <Menu.Item link>
+                <NavLink exact to="/">Anecdotes</NavLink> &nbsp;
+            </Menu.Item>
+            <Menu.Item link>
+                <NavLink exact to="/anecdotes/detailed">Detailed anecdotes</NavLink> &nbsp;
+            </Menu.Item>
+            <Menu.Item link>
+                <NavLink exact to="/create">Create New</NavLink> &nbsp;
+            </Menu.Item>
+            <Menu.Item link>
+                <NavLink exact to="/about">About</NavLink> &nbsp;
+            </Menu.Item>
+        </Menu>
     )
 }
+const Items = ({ anecdotes, addNew, anecdoteById }) => (
+    <div>
+        <Route exact path="/" render={() => <AnecdoteList anecdotes={anecdotes} />} />
+        <Route exact path="/anecdotes/detailed" render={() => <AnecdoteListDetailed anecdotes={anecdotes} />} />
+        <Route path="/create" render={() => <CreateNewRouted addNew={addNew} />} />
+        <Route path="/about" render={() => <About />} />
+        <Route exact path="/anecdotes/:id" render={({ match }) =>
+            <Anecdote anecdote={anecdoteById(match.params.id)} />} />
+        <Footer />
+    </div>
+)
 
 const AnecdoteList = ({ anecdotes }) => (
     <div>
         <h2>Anecdotes</h2>
-        <ul>
-            {anecdotes.map(anecdote => <li key={anecdote.id}><NavLink exact to={`anecdotes/${anecdote.id}`} key={anecdote.id} >{anecdote.content}</NavLink></li>)}
-        </ul>
+
+        <Table>
+            <Table.Body>
+                {anecdotes.map(anecdote =>
+
+                    <Table.Row key={anecdote.id}>
+                        <Table.Cell>
+                            <NavLink exact to={`anecdotes/${anecdote.id}`} key={anecdote.id} >{anecdote.content}</NavLink>
+                        </Table.Cell>
+                    </Table.Row>)}
+            </Table.Body>
+        </Table>
     </div>
 )
+const AnecdoteListDetailed = ({ anecdotes }) => {
+
+    console.log("anecs: ", anecdotes)
+
+    const anecdoteRows = anecdotes.map(anecdote =>
+
+        <Table.Row key={anecdote.id}>
+            <Table.Cell>
+                <Anecdote anecdote={anecdote} />
+            </Table.Cell>
+        </Table.Row>)
+
+    console.log("anec rows: ", anecdoteRows)
+
+    return (
+        <div>
+            <h2>Anecdotes</h2>
+
+            <Table>
+                <Table.Body>
+                    {anecdoteRows}
+                </Table.Body>
+            </Table>
+        </div>
+    )
+}
 
 const Anecdote = ({ anecdote }) => {
 
-    console.log('In anecdote')
+    console.log('In anecdote: ', anecdote)
+
+    if (!anecdote) {
+        return null
+    }
 
     let info
 
@@ -43,33 +94,55 @@ const Anecdote = ({ anecdote }) => {
         info = (<p>For more info see <a href={anecdote.info}>{anecdote.info}</a></p>)
     }
 
+    
+
     return (
         <div>
-            <h2>{anecdote.content} by {anecdote.author}</h2>
-            <p>Votes: {anecdote.votes}</p>
-            {info}
+            <Message>
+                <Message.Header>{anecdote.author}:</Message.Header>
+                <p style={{ fontSize: 20 }}>{'"' + anecdote.content + '"'}</p>
+                <p>Votes: {anecdote.votes}</p>
+                <p>{info}</p>
+            </Message>
         </div>
     )
 }
 
 const About = () => (
     <div>
-        <h2>About anecdote app</h2>
-        <p>According to Wikipedia:</p>
 
-        <em>An anecdote is a brief, revealing account of an individual person or an incident.
-          Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
-          such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is "a story with a point."</em>
-
-        <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+        <Table>
+            <Table.Body>
+                <Table.Row>
+                    <Table.Cell>
+                        <h2>About anecdote app</h2>
+                        <Message>
+                            <Message.Header>According to Wikipedia</Message.Header>
+                            <p style={{ fontSize: 20 }}>
+                                An anecdote is a brief, revealing account of an individual person or an incident.
+                            Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
+                            such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
+                             An anecdote is "a story with a point."
+                                </p>
+                        </Message>
+                        <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/0/01/LinuxCon_Europe_Linus_Torvalds_03_%28cropped%29.jpg"
+                            width="300"
+                            height="auto"></img>
+                    </Table.Cell>
+                </Table.Row>
+            </Table.Body>
+        </Table>
     </div>
 )
 
 const Footer = () => (
     <div>
         Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
-    
+
     See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code.
   </div>
 )
@@ -103,26 +176,27 @@ class CreateNew extends React.Component {
 
     render() {
         return (
+
             <div>
-                <h2>create a new anecdote</h2>
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                        content
-            <input name='content' value={this.state.content} onChange={this.handleChange} />
-                    </div>
-                    <div>
-                        author
-            <input name='author' value={this.state.author} onChange={this.handleChange} />
-                    </div>
-                    <div>
-                        url for more info
-            <input name='info' value={this.state.info} onChange={this.handleChange} />
-                    </div>
-                    <button>create</button>
-                </form>
+                <h2>Add a new anecdote</h2>
+
+                <Form onSubmit={this.handleSubmit}>
+                    <Form.Field>
+                        <label>Anecdote</label>
+                        <input name="content" />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Author</label>
+                        <input name="author" />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>URL for more info</label>
+                        <input name="info" />
+                    </Form.Field>
+                    <Button type="submit">Add anecdote</Button>
+                </Form>
             </div>
         )
-
     }
 }
 const CreateNewRouted = withRouter(CreateNew)
@@ -190,32 +264,22 @@ class App extends React.Component {
         }
 
         return (
-            <div>
+            <Container>
                 <h1>Software anecdotes</h1>
 
                 <Router>
                     <div>
-                        <Menu />
+                        <Menus />
                         {note}
                         <Items anecdotes={this.state.anecdotes} addNew={this.addNew} anecdoteById={this.anecdoteById} />
                     </div>
                 </Router>
 
-            </div>
+            </Container>
         );
     }
 }
 
-const Items = ({ anecdotes, addNew, anecdoteById }) => (
-    <div>
-        <Route exact path="/" render={() => <AnecdoteList anecdotes={anecdotes} />} />
-        <Route path="/create" render={() => <CreateNewRouted addNew={addNew} />} />
-        <Route path="/about" render={() => <About />} />
-        <Route exact path="/anecdotes/:id" render={({ match }) =>
-            <Anecdote anecdote={anecdoteById(match.params.id)} />} />
-        <Footer />
-    </div>
-)
 
 const Notification = ({ notification }) => {
 
