@@ -1,5 +1,5 @@
 # Full Stack 2018
-
+[Kurssin GitHub sivu](https://fullstackopen.github.io/)
 [Osa 3 puhelinluettelo Heroku](https://osa3-puhelinluettelo.herokuapp.com/)
 
 # Progress
