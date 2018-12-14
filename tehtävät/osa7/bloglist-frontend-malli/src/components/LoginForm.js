@@ -31,7 +31,15 @@ class LoginForm extends React.Component {
         }
     }
 
+    logout = () => {
+        window.localStorage.removeItem('loggedBlogAppUser')
+        this.props.noteChange('logged out')
+        this.props.setCurrentUser(null)
+    }
+
     render() {
+
+        console.log('USER STATUS FORM: ', this.props.user)
 
         if (this.props.user) {
             return (<div>
@@ -73,7 +81,7 @@ class LoginForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user.user
     }
 }
 const mapDispatchToProps = {
@@ -85,6 +93,6 @@ const mapDispatchToProps = {
 const ConnectedLoginForm = connect(
     mapStateToProps,
     mapDispatchToProps
-  )(LoginForm)
-  
-  export default ConnectedLoginForm;
+)(LoginForm)
+
+export default ConnectedLoginForm;

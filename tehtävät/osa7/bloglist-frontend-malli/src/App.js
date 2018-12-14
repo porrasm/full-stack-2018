@@ -32,44 +32,52 @@ class App extends React.Component {
   }
 
 
-  logout = () => {
-    window.localStorage.removeItem('loggedBlogAppUser')
-    this.props.noteChange('logged out')
-    this.props.setCurrentUser(null)
-  }
-
   render() {
+    
+    console.log('USER STATUS: ', this.props.user)
+
     if (this.props.user === null) {
       return (
-          <LoginForm login={this.login}/>
+        <LoginForm login={this.login} />
       )
     }
 
-
-    return (
+    const InfoView = () => (
       <div>
         <Notification />
-
         <LoginForm />
-
+      </div>
+    )
+    const MainView = () => (
+      <div>
         <Togglable buttonLabel='uusi blogi'>
           <BlogForm />
         </Togglable>
 
         <BlogList />
       </div>
+    )
+
+    return (
+      <div>
+        <Router>
+          <div>
+            <InfoView />
+            <MainView />
+          </div>
+        </Router>
+      </div>
     );
   }
 }
 
 
+
+
 const mapStateToProps = (state) => {
-
-  console.log("MAP STATE TO PROPS: ", state)
-
   return {
     user: state.user.user,
-    users: state.user.users,
+    users: state.user.users
   }
 }
 const mapDispatchToProps = {

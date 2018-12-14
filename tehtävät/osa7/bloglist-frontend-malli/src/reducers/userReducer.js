@@ -6,7 +6,7 @@ const userReducer = (state = { user: null, users: null }, action) => {
     const newState = state
 
     switch (action.type) {
-        case 'uses-init':
+        case 'users-init':
             newState.users = action.data
             return newState
         case 'user-set':

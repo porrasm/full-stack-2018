@@ -54,10 +54,10 @@ export const deleteBlogAction = (id) => {
 
     console.log('Deleting blog from action: ', id)
 
-    return async (dispacth) =>{
+    return async (dispatch) =>{
         const newBlog = await blogs.remove(id)
         console.log('Deleted new blog from action: ', newBlog)
-        dispacth({
+        dispatch({
             type: 'blog-delete',
             data: id
         })
