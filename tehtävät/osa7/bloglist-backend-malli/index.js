@@ -4,6 +4,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const morgan = require('morgan')
 
 const loginRouter = require('./controllers/login')
 const blogRouter = require('./controllers/blogs')
@@ -22,6 +23,7 @@ const extractToken = (request, response, next) => {
 
 app.use(extractToken)
 app.use(cors())
+app.use(morgan('tiny'))
 app.use(bodyParser.json())
 
 mongoose.connect(config.mongoUrl)
