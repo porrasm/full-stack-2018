@@ -50,8 +50,9 @@ class BlogList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+
     return {
-        user: state.user.user,
+        user: state.userContainer.user,
         blogs: state.blogs
       }
 }

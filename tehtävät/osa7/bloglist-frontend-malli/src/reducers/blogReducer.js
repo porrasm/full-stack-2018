@@ -26,11 +26,8 @@ const deleteBlog = (state, id) => {
 
 export const createBlogAction = (blog) => {
 
-    console.log('Creating blog from action: ', blog)
-
     return async (dispacth) =>{
         const newBlog = await blogs.create(blog)
-        console.log('Created new blog from action: ', newBlog)
         dispacth({
             type: 'blog-create',
             data: newBlog
@@ -39,11 +36,8 @@ export const createBlogAction = (blog) => {
 }
 export const voteBlogAction = (id, blog) => {
 
-    console.log('Updating blog from action: ', blog)
-
     return async (dispacth) =>{
         const newBlog = await blogs.update(id, blog)
-        console.log('Updated new blog from action: ', newBlog)
         dispacth({
             type: 'blog-update',
             data: newBlog
@@ -52,11 +46,8 @@ export const voteBlogAction = (id, blog) => {
 }
 export const deleteBlogAction = (id) => {
 
-    console.log('Deleting blog from action: ', id)
-
     return async (dispatch) =>{
         const newBlog = await blogs.remove(id)
-        console.log('Deleted new blog from action: ', newBlog)
         dispatch({
             type: 'blog-delete',
             data: id
@@ -64,8 +55,6 @@ export const deleteBlogAction = (id) => {
     }
 }
 export const initBlogs = (blogs) => {
-
-    console.log('Initializing blogs from action: ', blogs)
 
     return async (dispacth) =>{
         dispacth({

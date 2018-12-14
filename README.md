@@ -15,8 +15,8 @@
 | osa4          | all           	| 21/21   |
 | osa5          | all         	  	| 21/21   |
 | osa6          | all           	| 23/23    |
-| osa7          | 8-11          	| 4/23    |
-| Total         | 85%           	| 130/149  |
+| osa7          | 1-5, 8-11          | 9/23    |
+| Total         | 91%           	| 135/149  |
 
 # Linkit tehtäviin
 + [Osa 0](tehtävät/osa0)

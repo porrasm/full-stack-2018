@@ -1,4 +1,3 @@
-import users from '../services/users'
 import blogs from '../services/blogs'
 
 const userReducer = (state = { user: null, users: null }, action) => {
@@ -7,32 +6,14 @@ const userReducer = (state = { user: null, users: null }, action) => {
 
     switch (action.type) {
         case 'users-init':
-            newState.users = action.data
+            newState.users = action.users
+            console.log('Initializing user list to redux: ', newState)
             return newState
         case 'user-set':
-            console.log('user set: ', action)
-            newState.user = action.data
+            newState.user = action.user
             return newState
         default:
             return state
-    }
-}
-
-export const getOneUserAction = (id) => {
-
-    return async (dispatch) => {
-        dispatch({
-            type: 'user-get-all',
-            id
-        })
-    }
-}
-export const getAllUsersAction = () => {
-
-    return async (dispatch) => {
-        dispatch({
-            type: 'user-get-all'
-        })
     }
 }
 export const setCurrentUser = (user) => {
@@ -46,18 +27,18 @@ export const setCurrentUser = (user) => {
     return async (dispatch) => {
         dispatch({
             type: 'user-set',
-            data: user
+            user: user
         })
     }
 }
 export const initUsers = (users) => {
 
-    console.log('Initializing users from action: ', users)
+    console.log('initializing users: ', users)
 
     return async (dispacth) => {
         dispacth({
             type: 'users-init',
-            data: users
+            users: users
         })
     }
 }

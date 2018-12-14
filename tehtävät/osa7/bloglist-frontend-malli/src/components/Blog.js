@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 class Blog extends React.Component {
   constructor() {
@@ -19,7 +20,7 @@ class Blog extends React.Component {
     }
 
     const contentStyle = {
-      display: this.state.visible? '' : 'none',
+      visible: 'none',
       margin: 5,
     }
 
@@ -27,25 +28,10 @@ class Blog extends React.Component {
 
     return (
       <div style={blogStyle}>
-        <div 
-          onClick={() => this.setState({ visible: !this.state.visible })} 
-          className='name'
-        >
-          {blog.title} {blog.author}
-        </div>
-        <div style={contentStyle} className='content'>
-          <div>
-            <a href={blog.url}>{blog.url}</a>
-          </div>
-          <div>
-            {blog.likes} likes <button onClick={like}>like</button>
-          </div>
-          <div>
-            added by {adder}
-          </div>
-          {deletable && <div><button onClick={remove}>delete</button></div>}
-        </div>
-      </div>  
+        <NavLink exact to={"/blogs/" + blog._id}>
+          {blog.title} by {blog.author}
+        </NavLink>
+      </div>
     )
   }
 }

@@ -39,8 +39,6 @@ class LoginForm extends React.Component {
 
     render() {
 
-        console.log('USER STATUS FORM: ', this.props.user)
-
         if (this.props.user) {
             return (<div>
                 {this.props.user.name} logged in <button onClick={this.logout}>logout</button>
@@ -81,7 +79,7 @@ class LoginForm extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user
+        user: state.userContainer.user
     }
 }
 const mapDispatchToProps = {

@@ -5,8 +5,6 @@ class Notification extends React.Component {
 
   render() {
 
-    console.log('Rendering notification: ', this.props.notification)
-
     if (!this.props.notification) {
       return null
     }
@@ -24,8 +22,6 @@ class Notification extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-
-  console.log('map state: ', state.notification)
 
   return {
     notification: state.notification
