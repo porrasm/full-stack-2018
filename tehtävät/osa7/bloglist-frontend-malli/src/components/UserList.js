@@ -1,8 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
-import Blog from './Blog'
 import { noteChange } from '../reducers/notificationReducer'
 import { voteBlogAction, deleteBlogAction } from '../reducers/blogReducer'
 
@@ -46,12 +45,6 @@ class UserList extends React.Component {
                     </tbody>
                 </table>
 
-                {usersInOrder.map(user => {
-
-
-
-                })}
-
 
             </div>
         )
@@ -60,7 +53,7 @@ class UserList extends React.Component {
 
 const User = ({ user }) => (
     <tr>
-        <th><NavLink exact to={"/users/" + user._id}>{user.name}</NavLink></th>
+        <th><NavLink exact to={'/users/' + user._id}>{user.name}</NavLink></th>
         <th>{user.blogs.length}</th>
     </tr>
 )

@@ -1,6 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 import { noteChange } from '../reducers/notificationReducer'
 import { voteBlogAction, deleteBlogAction, commentBlogAction } from '../reducers/blogReducer'
@@ -41,7 +40,7 @@ class LongBlog extends React.Component {
 
         this.props.commentBlogAction(this.props.blog._id, this.state.comment)
 
-        this.setState({comment: ''})
+        this.setState({ comment: '' })
     }
 
     render() {
@@ -71,10 +70,6 @@ class LongBlog extends React.Component {
 
         const adder = blog.user ? blog.user.name : 'anonymous'
 
-
-
-        let key = 0
-
         return (
             <div style={blogStyle}>
                 <h2>
@@ -96,7 +91,7 @@ class LongBlog extends React.Component {
                 <h3>Comments</h3>
                 <form onSubmit={this.comment}>
                     <div>Add comment
-                    <input
+                        <input
                             value={this.state.comment}
                             name='comment'
                             onChange={this.handleChange}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 import { noteChange } from '../reducers/notificationReducer'
 import { setCurrentUser } from '../reducers/userReducer'
@@ -51,7 +51,7 @@ class LoginForm extends React.Component {
                 <form onSubmit={this.login}>
                     <div>
                         käyttäjätunnus
-                    <input
+                        <input
                             type="text"
                             name="username"
                             value={this.state.username}
@@ -60,7 +60,7 @@ class LoginForm extends React.Component {
                     </div>
                     <div>
                         salasana
-                    <input
+                        <input
                             type="password"
                             name="password"
                             value={this.state.password}
@@ -93,4 +93,4 @@ const ConnectedLoginForm = connect(
     mapDispatchToProps
 )(LoginForm)
 
-export default ConnectedLoginForm;
+export default ConnectedLoginForm

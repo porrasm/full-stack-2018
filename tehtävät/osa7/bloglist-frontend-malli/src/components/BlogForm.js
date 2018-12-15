@@ -1,87 +1,87 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 import { noteChange } from '../reducers/notificationReducer'
 import { createBlogAction } from '../reducers/blogReducer'
 
 
 class BlogForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      title: '',
-      author: '',
-      url: '',
-    }
-  }
-
-  addBlog = async (event) => {
-    event.preventDefault()
-    const blog = {
-      title: this.state.title,
-      author: this.state.author,
-      url: this.state.url,
+    constructor(props) {
+        super(props)
+        this.state = {
+            title: '',
+            author: '',
+            url: '',
+        }
     }
 
-    this.props.createBlogAction(blog)
-    this.props.noteChange(`blog '${blog.title}' by ${blog.author} added`)
-    this.setState({
-      title: '',
-      url: '',
-      author: '',
-    })
-  }
+    addBlog = async (event) => {
+        event.preventDefault()
+        const blog = {
+            title: this.state.title,
+            author: this.state.author,
+            url: this.state.url,
+        }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value })
-  }
+        this.props.createBlogAction(blog)
+        this.props.noteChange(`blog '${blog.title}' by ${blog.author} added`)
+        this.setState({
+            title: '',
+            url: '',
+            author: '',
+        })
+    }
 
-  render() {
-    return (
-      <div>
-        <h2>Luo uusi blogi</h2>
+    handleChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value })
+    }
 
-        <form onSubmit={this.addBlog}>
-          <div>
-            title
-            <input
-              value={this.state.title}
-              name='title'
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            author
-            <input
-              value={this.state.author}
-              name='author'
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            url
-            <input
-              value={this.state.url}
-              name='url'
-              onChange={this.handleChange}
-            />
-          </div>
+    render() {
+        return (
+            <div>
+                <h2>Luo uusi blogi</h2>
 
-          <button type="submit">Luo</button>
-        </form>
-      </div>
-    )
-  }
+                <form onSubmit={this.addBlog}>
+                    <div>
+                        title
+                        <input
+                            value={this.state.title}
+                            name='title'
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div>
+                        author
+                        <input
+                            value={this.state.author}
+                            name='author'
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div>
+                        url
+                        <input
+                            value={this.state.url}
+                            name='url'
+                            onChange={this.handleChange}
+                        />
+                    </div>
+
+                    <button type="submit">Luo</button>
+                </form>
+            </div>
+        )
+    }
 }
 
 const mapDispatchToProps = {
-  noteChange,
-  createBlogAction
+    noteChange,
+    createBlogAction
 }
 
 const ConnectedBlogForm = connect(
-  null,
-  mapDispatchToProps
+    null,
+    mapDispatchToProps
 )(BlogForm)
 
 export default ConnectedBlogForm

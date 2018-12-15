@@ -8,23 +8,23 @@ const User = ({ user }) => {
     }
 
     const blogList = user.blogs.map(blog => {
-        return (<li key={blog._id}><NavLink exact to={"/blogs/" + blog._id}>
-        {blog.title}
-      </NavLink></li>)
+        return (<li key={blog._id}><NavLink exact to={'/blogs/' + blog._id}>
+            {blog.title}
+        </NavLink></li>)
     })
 
-    return(
+    return (
         <div>
 
-        <h3>{user.name}</h3>
+            <h3>{user.name}</h3>
 
-        <h4>Added blogs</h4>
+            <h4>Added blogs</h4>
 
-        <ul>
-            {blogList}
-        </ul>
+            <ul>
+                {blogList}
+            </ul>
 
-    </div>
+        </div>
     )
 }
 
