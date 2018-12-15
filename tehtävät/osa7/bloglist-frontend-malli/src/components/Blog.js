@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { Message } from 'semantic-ui-react'
 
 class Blog extends React.Component {
     constructor() {
@@ -11,21 +12,12 @@ class Blog extends React.Component {
     render() {
         const { blog } = this.props
 
-        const blogStyle = {
-            paddingTop: 10,
-            paddingLeft: 2,
-            border: 'solid',
-            borderWidth: 1,
-            marginBottom: 5
-        }
-
-
         return (
-            <div style={blogStyle}>
+            <Message>
                 <NavLink exact to={'/blogs/' + blog._id}>
                     {blog.title} by {blog.author}
                 </NavLink>
-            </div>
+            </Message>
         )
     }
 }

@@ -83,6 +83,9 @@ class App extends React.Component {
                     <Menu.Item link>
                         <Link to="/users">users</Link>
                     </Menu.Item>
+                    <Menu.Item>
+                        <LoginForm />
+                    </Menu.Item>
                 </Menu>
             </div>
         )
@@ -90,7 +93,6 @@ class App extends React.Component {
         const InfoView = () => (
             <div>
                 <Menus />
-                <LoginForm />
                 <Notification />
             </div>
         )

@@ -5,6 +5,7 @@ import Blog from './Blog'
 import { noteChange } from '../reducers/notificationReducer'
 import { voteBlogAction, deleteBlogAction } from '../reducers/blogReducer'
 
+import { Table } from 'semantic-ui-react'
 
 class BlogList extends React.Component {
 
@@ -29,21 +30,35 @@ class BlogList extends React.Component {
 
     render() {
 
+        console.log('new render')
+
         const byLikes = (b1, b2) => b2.likes - b1.likes
         const blogsInOrder = this.props.blogs.sort(byLikes)
 
         return (
             <div>
                 <h2>Blog List</h2>
-                {blogsInOrder.map(blog =>
-                    <Blog
-                        key={blog._id}
-                        blog={blog}
-                        like={this.like(blog._id)}
-                        remove={this.remove(blog._id)}
-                        deletable={blog.user === undefined || blog.user.username === this.props.user.username}
-                    />
-                )}
+
+                <Table>
+                    <Table.Body>
+                        {blogsInOrder.map(blog =>
+
+                            <Table.Row key={blog._id}>
+                                <Table.Cell>
+                                    <Blog
+                                        key={blog._id}
+                                        blog={blog}
+                                        like={this.like(blog._id)}
+                                        remove={this.remove(blog._id)}
+                                        deletable={blog.user === undefined || blog.user.username === this.props.user.username}
+                                    />
+                                </Table.Cell>
+                            </Table.Row>
+
+                        )}
+                    </Table.Body>
+                </Table>
+
             </div>
         )
     }

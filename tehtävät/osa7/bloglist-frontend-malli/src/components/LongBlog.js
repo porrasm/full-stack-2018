@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { noteChange } from '../reducers/notificationReducer'
 import { voteBlogAction, deleteBlogAction, commentBlogAction } from '../reducers/blogReducer'
+import { Table, Message } from 'semantic-ui-react'
 
 class LongBlog extends React.Component {
     constructor(props) {
@@ -76,16 +77,35 @@ class LongBlog extends React.Component {
                     {blog.title} by {blog.author}
                 </h2>
                 <div style={contentStyle} className='content'>
-                    <div>
-                        <a href={blog.url}>{blog.url}</a>
-                    </div>
-                    <div>
-                        {blog.likes} likes <button onClick={like}>like</button>
-                    </div>
-                    <div>
-                        added by {adder}
-                    </div>
-                    {deletable && <div><button onClick={remove}>delete</button></div>}
+                    <Table>
+                        <Table.Body>
+                            <Message>
+                                <Message.Content>
+                                    <div>
+                                        <a href={blog.url}>{blog.url}</a>
+                                    </div>
+                                </Message.Content>
+                                <Message.Content>
+                                    <div>
+                                        <a href={blog.url}>{blog.url}</a>
+                                    </div>
+                                </Message.Content>
+                                <Message.Content>
+                                    <div>
+                                        {blog.likes} likes <button onClick={like}>like</button>
+                                    </div>
+                                </Message.Content>
+                                <Message.Content>
+                                    <div>
+                                        added by {adder}
+                                    </div>
+                                </Message.Content>
+                                <Message.Content>
+                                    {deletable && <div><button onClick={remove}>delete</button></div>}
+                                </Message.Content>
+                            </Message>
+                        </Table.Body>
+                    </Table>
                 </div>
 
                 <h3>Comments</h3>
@@ -110,17 +130,10 @@ class LongBlog extends React.Component {
 
 const Comments = ({ comments }) => {
 
-    let key = 0
-
     return (
-        <ul>
-            {comments.map(comment => {
-
-                console.log('comment: ', comment)
-
-                return (<li key={key++}>{comment}</li>)
-            })}
-        </ul>
+        <Message>
+            <Message.List items={comments} />
+        </Message>
     )
 }
 
