@@ -11,6 +11,8 @@ const blogReducer = (state = [], action) => {
             return deleteBlog(state, action.data)
         case 'blog-init':
             return action.data
+        case 'blog-comment':
+            return updateBlog(state, action.data)
         default:
             return state
     }
@@ -38,6 +40,16 @@ export const voteBlogAction = (id, blog) => {
 
     return async (dispacth) =>{
         const newBlog = await blogs.update(id, blog)
+        dispacth({
+            type: 'blog-update',
+            data: newBlog
+        })
+    }
+}
+export const commentBlogAction = (id, comment) => {
+
+    return async (dispacth) =>{
+        const newBlog = await blogs.comment(id, comment)
         dispacth({
             type: 'blog-update',
             data: newBlog

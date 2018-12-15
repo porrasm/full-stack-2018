@@ -2,7 +2,10 @@ import blogs from '../services/blogs'
 
 const userReducer = (state = { user: null, users: null }, action) => {
 
-    const newState = state
+    const newState = {
+        user: state.user,
+        users: state.users
+    }
 
     switch (action.type) {
         case 'users-init':

@@ -46,6 +46,43 @@ blogRouter.post('/', async (request, response) => {
   }
 })
 
+blogRouter.post('/:id/comment', async (request, response) => {
+
+  const comment = request.body.comment
+
+  try {
+    const token = request.token
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    if (comment === undefined) {
+      return response.status(400).json({ error: 'url or title missing'})
+    }
+
+    const blog = await Blog.findById(request.params.id)
+
+    if (!blog.comments) {
+      blog.comments = []
+    }
+
+    blog.comments = blog.comments.concat(comment)
+
+    const newBlog = await Blog.findByIdAndUpdate(request.params.id, blog , {new: true}).populate('user', {username: 1, name: 1})
+
+    response.send(newBlog)
+  } catch (exception) {
+    if (exception.name === 'JsonWebTokenError') {
+      response.status(401).json({ error: exception.message })
+    } else {
+      console.log(exception)
+      response.status(500).json({ error: 'something went wrong...' })
+    }
+  }
+})
+
 blogRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
 

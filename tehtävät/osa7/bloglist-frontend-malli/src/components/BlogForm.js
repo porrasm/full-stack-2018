@@ -34,13 +34,13 @@ class BlogForm extends React.Component {
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
-}
+  }
 
   render() {
     return (
       <div>
         <h2>Luo uusi blogi</h2>
-  
+
         <form onSubmit={this.addBlog}>
           <div>
             title
@@ -65,8 +65,8 @@ class BlogForm extends React.Component {
               name='url'
               onChange={this.handleChange}
             />
-          </div>        
-  
+          </div>
+
           <button type="submit">Luo</button>
         </form>
       </div>

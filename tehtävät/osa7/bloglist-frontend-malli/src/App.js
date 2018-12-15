@@ -40,6 +40,11 @@ class App extends React.Component {
   }
 
   userById = (id) => {
+
+    if (!this.props.users) {
+      return null
+    }
+
     for (let user of this.props.users) {
       if (user._id === id) {
         return user

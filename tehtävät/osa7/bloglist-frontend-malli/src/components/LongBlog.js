@@ -3,33 +3,56 @@ import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux';
 
 import { noteChange } from '../reducers/notificationReducer'
-import { voteBlogAction, deleteBlogAction } from '../reducers/blogReducer'
+import { voteBlogAction, deleteBlogAction, commentBlogAction } from '../reducers/blogReducer'
 
 class LongBlog extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            comment: ''
+        }
+    }
+
+    handleChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value })
+    }
 
     like = (id) => async () => {
         const liked = this.props.blogs.find(b => b._id === id)
         const updated = { ...liked, likes: liked.likes + 1 }
-    
+
         this.props.voteBlogAction(id, updated)
         this.props.noteChange(`you liked '${updated.title}' by ${updated.author}`)
-      }
-    
-      remove = (id) => async () => {
+    }
+
+    remove = (id) => async () => {
         const deleted = this.props.blogs.find(b => b._id === id)
         const ok = window.confirm(`remove blog '${deleted.title}' by ${deleted.author}?`)
         if (ok === false) {
-          return
+            return
         }
-    
+
         this.props.deleteBlogAction(id)
         this.props.noteChange(`blog '${deleted.title}' by ${deleted.author} removed`)
-      }
+    }
+
+    comment = (event) => {
+        event.preventDefault()
+
+        this.props.commentBlogAction(this.props.blog._id, this.state.comment)
+
+        this.setState({comment: ''})
+    }
 
     render() {
         const blog = this.props.blog
+        console.log('BLOG: ', blog)
 
-        const key = blog._id
+        if (!blog) {
+            console.log('Blog is null')
+            return null
+        }
+
         const like = this.like(blog._id)
         const remove = this.remove(blog._id)
         const deletable = blog.user === undefined || blog.user.username === this.props.user.username
@@ -48,6 +71,10 @@ class LongBlog extends React.Component {
 
         const adder = blog.user ? blog.user.name : 'anonymous'
 
+
+
+        let key = 0
+
         return (
             <div style={blogStyle}>
                 <h2>
@@ -65,9 +92,41 @@ class LongBlog extends React.Component {
                     </div>
                     {deletable && <div><button onClick={remove}>delete</button></div>}
                 </div>
+
+                <h3>Comments</h3>
+                <form onSubmit={this.comment}>
+                    <div>Add comment
+                    <input
+                            value={this.state.comment}
+                            name='comment'
+                            onChange={this.handleChange}
+                        />
+                    </div>
+
+                    <button>submit</button>
+                </form>
+                <Comments comments={blog.comments} />
+
+
             </div>
         )
     }
+}
+
+const Comments = ({ comments }) => {
+
+    let key = 0
+
+    return (
+        <ul>
+            {comments.map(comment => {
+
+                console.log('comment: ', comment)
+
+                return (<li key={key++}>{comment}</li>)
+            })}
+        </ul>
+    )
 }
 
 const mapStateToProps = (state) => {
@@ -75,17 +134,18 @@ const mapStateToProps = (state) => {
     return {
         user: state.userContainer.user,
         blogs: state.blogs
-      }
+    }
 }
 const mapDispatchToProps = {
-  noteChange,
-  voteBlogAction,
-  deleteBlogAction
+    noteChange,
+    voteBlogAction,
+    deleteBlogAction,
+    commentBlogAction
 }
 
 const ConnectedLongBlog = connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(LongBlog)
 
 export default ConnectedLongBlog
